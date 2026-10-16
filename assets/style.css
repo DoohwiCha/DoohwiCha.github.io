@@ -138,7 +138,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   font-family: var(--serif); font-size: clamp(21px, 2.3vw, 26px); line-height: 1.42;
   color: var(--ink); max-width: 30em; margin: 0 0 30px;
 }
-html[lang="ko"] .kicker, html[lang="ko"] .sec-label { font-family: var(--sans); letter-spacing: .04em; }
+html[lang="ko"] .kicker, html[lang="ko"] .sec-label, html[lang="ko"] .publist h4 { font-family: var(--sans); letter-spacing: .04em; }
 html[lang="ko"] .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.6; }
 .now {
   display: inline-flex; align-items: center; gap: 10px;
@@ -177,6 +177,12 @@ html[lang="ko"] .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.6; }
 .art-label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; fill: var(--muted); }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fade { to { opacity: 1; } }
+
+/* portrait */
+.art-halo { fill: none; stroke: var(--accent); stroke-width: 1.5; opacity: .55; }
+.art-node { opacity: 0; animation: fade .5s ease forwards; }
+.sh-id { display: flex; align-items: center; gap: 5mm; }
+.sh-photo { width: 21mm; height: 21mm; border-radius: 50%; object-fit: cover; border: 1px solid #d6dbe3; flex: none; }
 
 /* ---------- metrics ---------- */
 .metrics { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 18px 0 0; }
@@ -293,7 +299,7 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .art-line { animation: none; stroke-dashoffset: 0; }
-  .art-pt { animation: none; opacity: 1; }
+  .art-pt, .art-node { animation: none; opacity: 1; }
   .now .dot { animation: none; }
   .reveal, .reveal.pre { opacity: 1; transform: none; transition: none; }
 }
@@ -301,7 +307,7 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
 /* ---------- responsive ---------- */
 @media (max-width: 960px) {
   .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-  .hero-art { max-width: 520px; }
+  .hero-art { max-width: 440px; width: 100%; margin: 0 auto; }
   .sec-head, .sec-body { grid-template-columns: 1fr; gap: 14px; }
   .sec-body > .aside { order: 2; }
   .paper { grid-template-columns: 1fr; gap: 16px; }
@@ -311,6 +317,7 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
 @media (max-width: 720px) {
   .container { padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
   .hero { padding: 54px 0 36px; }
+  .hero-art { max-width: 340px; margin: 4px auto 0; }
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .metric:nth-child(3) { padding-left: 0; border-left: 0; }
   .metric:nth-child(n+3) { border-top: 1px solid var(--rule); }
@@ -321,7 +328,14 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
   .paper h3 { font-size: 21px; }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
   .brand .brand-name { display: none; }
+  /* phones: keep only the profile link and language switch in the header */
+  .nav a[href^="#"] { display: none; }
+  .kicker { font-size: 11px; letter-spacing: .08em; }
 }
+
+/* large monitors (27" QHD and up): scale the whole layout instead of leaving it small */
+@media screen and (min-width: 1800px) { html { zoom: 1.1; } }
+@media screen and (min-width: 2300px) { html { zoom: 1.22; } }
 
 /* ---------- print (home pages) ---------- */
 @media print {
@@ -348,7 +362,7 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
 }
 .sheet::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1c3d63, #1c3d63 70%, #a5824a 70%); }
 .sheet .todo { background: #fff0a3; color: #5a4600; }
-.sh-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 14mm; padding-bottom: 5mm; border-bottom: 1px solid #12161c; }
+.sh-head { display: flex; justify-content: space-between; align-items: center; gap: 14mm; padding-bottom: 4.5mm; border-bottom: 1px solid #12161c; }
 .sh-head h1 { font-family: var(--serif); font-weight: 500; font-size: 26pt; line-height: 1; letter-spacing: -0.02em; margin: 0 0 2.4mm; }
 .sh-head h1 .alt { font-family: var(--sans); font-size: 11pt; color: #6a7280; font-weight: 500; letter-spacing: 0; margin-left: 2mm; }
 .sh-head .r { font-size: 10.2pt; color: #353d49; margin: 0; }
