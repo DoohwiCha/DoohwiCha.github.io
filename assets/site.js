@@ -1,5 +1,10 @@
-// Highlights the current section in the header menu. The page works without it.
+// Folds the paper list on phones and highlights the current section in the menu.
+// The page works without it.
 (function () {
+  // phones: start with the full paper list folded
+  var pub = document.getElementById("publications");
+  if (pub && window.matchMedia && window.matchMedia("(max-width: 720px)").matches) pub.open = false;
+
   if (!("IntersectionObserver" in window)) return;
   var links = {};
   document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) {

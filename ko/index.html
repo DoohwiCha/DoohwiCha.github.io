@@ -21,7 +21,7 @@
 <body>
   <header class="site">
     <div class="container">
-      <a class="brand" href="index.html" aria-label="홈"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="currentColor" d="M41.26 31.75Q41.26 24.84 38.22 21.46Q35.18 18.09 29.19 18.09H23.67L23.37 16.5H30.45Q36.06 16.5 40 18.23Q43.93 19.97 46 23.27Q48.07 26.58 48.07 31.28Q48.07 36.64 45.8 40.25Q43.52 43.86 39.61 45.68Q35.69 47.5 30.75 47.5H23.37L23.67 45.91H29.91Q33.53 45.91 36.06 44.49Q38.59 43.07 39.93 39.95Q41.26 36.84 41.26 31.75ZM16.73 47.5V46.81L20.35 45.85V18.13L16.73 17.2V16.5H27V47.5Z"/></svg></span><span class="brand-name">Doohwi Cha</span></a>
+      <a class="brand" href="index.html" aria-label="홈"><span class="brand-mark" aria-hidden="true"><svg viewBox="8 8 48 48"><path fill="currentColor" d="M41.26 31.75Q41.26 24.84 38.22 21.46Q35.18 18.09 29.19 18.09H23.67L23.37 16.5H30.45Q36.06 16.5 40 18.23Q43.93 19.97 46 23.27Q48.07 26.58 48.07 31.28Q48.07 36.64 45.8 40.25Q43.52 43.86 39.61 45.68Q35.69 47.5 30.75 47.5H23.37L23.67 45.91H29.91Q33.53 45.91 36.06 44.49Q38.59 43.07 39.93 39.95Q41.26 36.84 41.26 31.75ZM16.73 47.5V46.81L20.35 45.85V18.13L16.73 17.2V16.5H27V47.5Z"/></svg></span><span class="brand-name">Doohwi Cha</span></a>
       <nav class="nav" aria-label="주 메뉴">
         <a href="#about">소개</a>
         <a href="#focus">연구 주제</a>
@@ -39,6 +39,7 @@
       <div class="container">
         <div class="hero-grid">
           <div>
+            <img class="hero-photo" src="../assets/portrait.jpg" alt="차두휘 사진" width="76" height="76">
             <p class="kicker">투자 업무의 AI 활용 · 측정 방법론</p>
             <h1>차두휘<span class="alt">Doohwi Cha</span></h1>
             <p class="role"><b>미래에셋증권 OCIO운용팀장</b> · 서울</p>
@@ -201,8 +202,9 @@
           </article>
         </div>
 
-        <div class="publist reveal" id="publications">
-          <h4>전체 논문 · ACM ICAIF 2026</h4>
+        <details class="publist" id="publications" open>
+          <summary>전체 논문 <span class="count">ICAIF 2026 · 7편 · MARBLE 2026 · 4편</span></summary>
+          <h4>ACM ICAIF 2026</h4>
           <p class="venue">ACM International Conference on AI in Finance, 이탈리아 밀라노 · 2026년 11월 14–17일 · 메인트랙</p>
           <ol>
             <li><div><span class="t">CallRank: Isolating What Changed in Earnings-Call Q&amp;A for Sector Ranking and Cost-Adjusted Alpha</span><span class="chip oral">구두</span><span class="a"><span class="me">Doohwi Cha</span>, Minsuk Sung, Seunghan Son, Juyeong Lee, Donghwa Seo, Minjae Lee, Hyeonjun Yeo, Yoontae Hwang · <a href="https://github.com/DoohwiCha/CallRank-ICAIF2026">코드</a></span></div></li>
@@ -222,7 +224,7 @@
             <li><div><span class="t">Basis-Only Funding Is Not Dividend Fair: Settlement Design in Crypto Equity Perpetuals</span><span class="a"><span class="me">Doohwi Cha</span> · 2저자</span></div></li>
             <li><div><span class="t">When Cross-Venue Agreement Is Not Price Discovery: Disclosure Frontiers for 24/7 Equity-Perpetual Oracles</span><span class="a"><span class="me">Doohwi Cha</span> · 2저자</span></div></li>
           </ol>
-        </div>
+        </details>
       </div>
     </section>
 
