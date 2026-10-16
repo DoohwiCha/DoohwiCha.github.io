@@ -102,7 +102,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 }
 .site .container { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 62px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
-/* stacked monogram (same drawing as the favicon): D o / _ o */
+/* single-letter monogram: Newsreader D outline, same drawing as the favicon */
 .brand-mark { width: 34px; height: 34px; border-radius: 8px; background: var(--ink); color: var(--paper); flex: none; }
 .brand-mark svg { width: 34px; height: 34px; display: block; }
 .nav { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; }
