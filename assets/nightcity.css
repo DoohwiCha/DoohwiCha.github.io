@@ -1,0 +1,213 @@
+/* Hidden "Night City" mode for the home pages.
+   site.js loads this file only after the logo (or the portrait) has been tapped a few times,
+   and adds html.nc when it has been tapped seven. Theme rules are scoped to html.nc; the
+   entry animation uses html.nc-boot. Screen only: print is unchanged. */
+@media screen {
+  html:root.nc {
+    --nc-yellow: #fcee0a;
+    --nc-cyan: #00f0ff;
+    --nc-pink: #ff2a6d;
+    --paper: #07070c;
+    --paper-2: #0b0b12;
+    --card: #0e0e17;
+    --ink: #eef1ff;
+    --ink-2: #c5cae0;
+    --muted: #8a8fab;
+    --rule: #23233a;
+    --accent: #00f0ff;
+    --accent-soft: rgba(0, 240, 255, .1);
+    --gold: #fcee0a;
+    --oral: #00f0ff;
+    --poster: #ff2a6d;
+    --shadow: none;
+    --display: "Chakra Petch", "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+    color-scheme: dark;
+  }
+
+  /* scan lines over the whole page */
+  html.nc body::after {
+    content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, .028) 0 1px, transparent 1px 3px);
+  }
+
+  /* header */
+  html.nc .site { border-bottom-color: rgba(255, 42, 109, .45); }
+  html.nc .bm-plate { fill: var(--nc-yellow); }
+  html.nc .bm-d { fill: #07070c; }
+  html.nc .brand-mark svg { filter: drop-shadow(-1.5px 0 0 rgba(0, 240, 255, .85)) drop-shadow(1.5px 0 0 rgba(255, 42, 109, .75)); }
+  html.nc .brand-name { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+  html.nc .nav a { border-radius: 0; font-family: var(--mono); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; }
+  html.nc .nav a:hover, html.nc .nav a.active { background: rgba(0, 240, 255, .1); color: var(--ink); }
+  html.nc .nav .lang { border-color: rgba(0, 240, 255, .35); }
+
+  /* hero */
+  html.nc .hero {
+    background:
+      radial-gradient(900px 460px at 92% -8%, rgba(255, 42, 109, .13), transparent 60%),
+      radial-gradient(700px 420px at -8% 108%, rgba(0, 240, 255, .08), transparent 60%);
+  }
+  html.nc .kicker { color: var(--nc-yellow); }
+  html.nc .hero h1 {
+    font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .01em;
+    text-shadow: -2px 0 rgba(0, 240, 255, .7), 2px 0 rgba(255, 42, 109, .7);
+  }
+  html.nc .hero h1 .alt { font-family: var(--mono); font-weight: 500; letter-spacing: .14em; text-shadow: none; color: var(--muted); }
+  html.nc .lede { font-family: var(--sans); font-size: clamp(18px, 1.9vw, 21px); line-height: 1.6; color: var(--ink-2); }
+  html.nc[lang="ko"] .nav a, html.nc[lang="ko"] .btn { letter-spacing: .01em; }
+  html.nc .now { border-radius: 0; border-color: rgba(252, 238, 10, .5); background: rgba(252, 238, 10, .05); }
+  html.nc .now .dot { border-radius: 0; background: var(--nc-pink); box-shadow: 0 0 10px var(--nc-pink); animation: none; }
+  html.nc .btn {
+    border-radius: 0; background: rgba(0, 240, 255, .05); border-color: rgba(0, 240, 255, .4); color: var(--ink);
+    padding: 0 13px; font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+  }
+  html.nc .btn.primary { background: var(--nc-yellow); border-color: var(--nc-yellow); color: #07070c; }
+  html.nc .btn:hover { transform: none; border-color: var(--nc-pink); }
+  html.nc .btn:focus-visible { outline-color: var(--nc-pink); outline-offset: -5px; }
+  html.nc .hero-photo { border-color: var(--nc-yellow); transition: filter .5s ease; }
+
+  /* hero diagram: the seven seats become a crew */
+  html.nc .art-grid { stroke: rgba(0, 240, 255, .14); }
+  html.nc .art-ring, html.nc .art-edge { stroke: var(--nc-yellow); opacity: .5; }
+  html.nc .art-node { fill: #07070c; stroke: var(--nc-yellow); }
+  html.nc .art-halo { stroke: var(--nc-cyan); opacity: .8; }
+  html.nc .art-label { display: none; }
+  .nc-crew, .nc-ghost { display: none; }
+  html.nc .nc-crew { display: inline; }
+  html.nc .nc-role { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; fill: var(--nc-cyan); }
+  html.nc .nc-crew-t { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; fill: var(--nc-yellow); }
+
+  /* Sandevistan: afterimages behind the portrait (hover the diagram, or on entry) */
+  html.nc .nc-ghost {
+    display: inline; opacity: 0; mix-blend-mode: screen;
+    transition: transform .55s cubic-bezier(.2, .8, .2, 1), opacity .55s ease;
+  }
+  html.nc .hero-art:hover .nc-ghost, html.nc.nc-sandy .nc-ghost { opacity: var(--o); transform: translateX(var(--dx)); }
+  html.nc.nc-sandy .hero-photo, html.nc .hero-photo:active {
+    filter: drop-shadow(8px 0 0 rgba(0, 240, 255, .7)) drop-shadow(14px 0 0 rgba(255, 42, 109, .5));
+  }
+
+  /* the portrait as an edgerunner (tap the photo seven times): Night City light and shades */
+  .nc-face, .nc-pface, .nc-pshades, .nc-toast { display: none; }
+  html.nc .nc-face { display: inline; opacity: 0; pointer-events: none; transition: opacity .45s ease; }
+  html.nc.nc-edge .nc-face { opacity: 1; pointer-events: auto; }
+  html.nc .nc-shades {
+    opacity: 0; transform: translateY(-260px); pointer-events: none;
+    transition: transform .6s cubic-bezier(.2, 1.4, .35, 1), opacity .2s ease;
+  }
+  html.nc.nc-edge .nc-shades { opacity: 1; transform: none; }
+  html.nc.nc-edge .nc-glint { animation: nc-glint .7s ease-out .55s 1 both; }
+  html.nc .hero-grid > div:first-child { position: relative; }
+  html.nc .nc-toast {
+    display: block; position: fixed; z-index: 75; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 76px);
+    padding: 9px 16px; background: rgba(7, 7, 12, .92); border: 1px solid var(--nc-yellow);
+    font: 600 12px/1 var(--mono); letter-spacing: .18em; color: var(--nc-yellow); white-space: nowrap;
+    opacity: 0; transform: translateX(-50%); pointer-events: none;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  html.nc.nc-cred .nc-toast { animation: nc-cred 2.6s ease both; }
+
+  /* numbers and section heads */
+  html.nc .metric .num { font-family: var(--display); font-weight: 600; color: var(--nc-yellow); text-shadow: 0 0 22px rgba(252, 238, 10, .25); }
+  html.nc .metric .num sup { color: var(--nc-pink); }
+  html.nc .sec-label { color: var(--nc-cyan); }
+  html.nc .sec-label::before { content: "// "; color: var(--nc-pink); }
+  html.nc .sec-title, html.nc .contact h2 { font-family: var(--display); font-weight: 600; letter-spacing: -.005em; }
+
+  /* panels: square corners with HUD brackets */
+  html.nc .card, html.nc .paper, html.nc .repo, html.nc .mandate {
+    border-radius: 0; border-color: rgba(0, 240, 255, .16);
+    background:
+      linear-gradient(var(--nc-yellow), var(--nc-yellow)) left top / 14px 2px no-repeat,
+      linear-gradient(var(--nc-yellow), var(--nc-yellow)) left top / 2px 14px no-repeat,
+      linear-gradient(var(--nc-cyan), var(--nc-cyan)) right bottom / 14px 2px no-repeat,
+      linear-gradient(var(--nc-cyan), var(--nc-cyan)) right bottom / 2px 14px no-repeat,
+      var(--card);
+  }
+  html.nc .card:hover, html.nc .repo:hover { border-color: rgba(255, 42, 109, .55); }
+  html.nc .card .ico { border-radius: 0; background: rgba(0, 240, 255, .08); color: var(--nc-cyan); }
+  html.nc .paper h3 { font-family: var(--display); font-weight: 600; letter-spacing: 0; }
+  html.nc .venue-tag, html.nc .publist h4, html.nc .mandate .y { color: var(--nc-yellow); }
+  html.nc .chip { border-radius: 0; }
+  html.nc .link-arrow:hover, html.nc .publist .a a:hover { color: var(--nc-pink); }
+  html.nc .publist > summary { border-radius: 0; border-color: rgba(0, 240, 255, .25); }
+  html.nc .publist li::before { color: var(--nc-pink); }
+  html.nc .timeline li::before { border-radius: 0; background: #07070c; }
+  html.nc .timeline li.current::before { background: var(--nc-yellow); border-color: var(--nc-yellow); box-shadow: 0 0 12px rgba(252, 238, 10, .55); }
+  html.nc .timeline .when { color: var(--nc-cyan); }
+  html.nc .contact { background: radial-gradient(800px 420px at 100% 100%, rgba(255, 42, 109, .1), transparent 60%); }
+
+  /* the moon at the end of the page */
+  html.nc footer.site-foot { position: relative; }
+  .nc-moon { display: none; }
+  html.nc .nc-moon {
+    display: block; position: absolute; right: max(22px, env(safe-area-inset-right, 0px)); bottom: 12px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background:
+      radial-gradient(circle at 64% 36%, rgba(40, 46, 80, .22) 0 2.5px, transparent 3.5px),
+      radial-gradient(circle at 36% 62%, rgba(40, 46, 80, .18) 0 3.5px, transparent 4.5px),
+      radial-gradient(circle at 58% 72%, rgba(40, 46, 80, .14) 0 1.8px, transparent 2.8px),
+      radial-gradient(circle at 42% 38%, #ffffff, #e3e9ff 55%, #aab5e4);
+    box-shadow: 0 0 16px 4px rgba(205, 218, 255, .33);
+  }
+
+  /* status chip with the way out */
+  .nc-hud, .nc-sweep { display: none; }
+  html.nc .nc-hud {
+    display: flex; align-items: center; gap: 10px;
+    position: fixed; z-index: 70;
+    left: max(12px, env(safe-area-inset-left, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    padding: 5px 5px 5px 12px;
+    background: rgba(7, 7, 12, .9); border: 1px solid var(--nc-yellow);
+    font: 500 11px/1 var(--mono); letter-spacing: .12em; color: var(--nc-yellow);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  html.nc .nc-hud button {
+    font: inherit; letter-spacing: .12em; cursor: pointer;
+    padding: 6px 10px; border: 0; background: var(--nc-yellow); color: #07070c;
+  }
+  html.nc .nc-hud button:focus-visible { outline: 2px solid var(--nc-pink); outline-offset: -4px; }
+
+  /* entry: one scan sweep and a short jitter */
+  html.nc.nc-boot .nc-sweep {
+    display: block; position: fixed; left: 0; right: 0; top: 0; height: 2px; z-index: 80; pointer-events: none;
+    background: var(--nc-yellow); box-shadow: 0 0 14px 2px rgba(252, 238, 10, .7);
+    animation: nc-sweep .8s cubic-bezier(.5, 0, .5, 1) forwards;
+  }
+  html.nc-boot .hero h1, html.nc-boot .brand-mark svg { animation: nc-jit .5s steps(5) 1; }
+}
+
+/* phone layout: the Night City photo and its shades sit on top of the small portrait */
+@media screen and (max-width: 720px) {
+  html.nc .nc-pface, html.nc .nc-pshades {
+    display: block; position: absolute; left: 0; top: 0; width: 76px; height: 76px; pointer-events: none;
+  }
+  html.nc .nc-pface { border-radius: 50%; object-fit: cover; border: 1px solid var(--nc-yellow); opacity: 0; transition: opacity .45s ease; }
+  html.nc.nc-edge .nc-pface { opacity: 1; }
+  html.nc .nc-pshades { overflow: visible; }
+}
+
+@keyframes nc-glint { from { transform: translateX(-120px); } to { transform: translateX(330px); } }
+@keyframes nc-cred {
+  0% { opacity: 0; transform: translate(-50%, -8px); }
+  12%, 82% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -4px); }
+}
+
+@keyframes nc-sweep { from { transform: translateY(0); opacity: 1; } to { transform: translateY(100vh); opacity: .2; } }
+@keyframes nc-jit {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4px, 1px); }
+  40% { transform: translate(3px, -1px); }
+  60% { transform: translate(-2px, 0); }
+  80% { transform: translate(1px, 1px); }
+  100% { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.nc .nc-ghost, html.nc .hero-photo, html.nc .nc-shades, html.nc .nc-face, html.nc .nc-pface { transition: none; }
+  html.nc.nc-edge .nc-glint { animation: none; }
+  html.nc.nc-cred .nc-toast { animation: none; opacity: 1; }
+  html.nc-boot .hero h1, html.nc-boot .brand-mark svg { animation: none; }
+  html.nc.nc-boot .nc-sweep { display: none; }
+}

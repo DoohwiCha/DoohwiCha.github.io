@@ -101,10 +101,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   border-bottom: 1px solid var(--rule);
 }
 .site .container { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 62px; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
-/* single-letter monogram: Newsreader D outline, same drawing as the favicon */
-.brand-mark { width: 34px; height: 34px; border-radius: 8px; background: var(--ink); color: var(--paper); flex: none; }
-.brand-mark svg { width: 34px; height: 34px; display: block; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+/* monogram: angular lowercase d on a plate with two clipped corners, same drawing as the favicon */
+.brand-mark { width: 34px; height: 34px; flex: none; }
+.brand-mark svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.bm-plate { fill: var(--ink); }
+.bm-d { fill: var(--paper); }
 .nav { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; }
 .nav::-webkit-scrollbar { display: none; }
 .nav a {
@@ -182,7 +184,7 @@ html[lang="ko"] .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.6; }
 .sh-photo { width: 21mm; height: 21mm; border-radius: 50%; object-fit: cover; border: 1px solid #d6dbe3; flex: none; }
 
 /* phone portrait (hidden on larger screens, where the hero diagram shows it) */
-.hero-photo { display: none; width: 76px; height: 76px; border-radius: 50%; object-fit: cover; margin: 0 0 16px; border: 1px solid var(--rule); }
+.hero-photo { display: none; width: 76px; height: 76px; border-radius: 50%; object-fit: cover; margin: 0 0 16px; border: 1px solid var(--rule); touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 
 /* full paper list as a fold-out */
 .publist > summary {
@@ -333,8 +335,7 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
   .container { padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
   /* header: bigger mark, only profile + language links */
   .site .container { height: 58px; }
-  .brand-mark, .brand-mark svg { width: 40px; height: 40px; }
-  .brand-mark { border-radius: 10px; }
+  .brand-mark { width: 40px; height: 40px; }
   .brand .brand-name { display: none; }
   .nav a[href^="#"] { display: none; }
   /* hero: small portrait instead of the diagram */

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>404 · Flatlined — Doohwi Cha</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#07070c">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23fcee0a' d='M0 12L12 0H64V52L52 64H0Z'/%3E%3Cpath fill='%2307070c' d='M18.07 31.5L26.62 24H44.62L40.69 52H22.69L16.24 44.5ZM23.65 41.6L26.57 45H38.17L40.14 31H28.54L24.66 34.4ZM41.83 19L49.81 12H49.81L44.19 52H37.19Z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    /* One deliberate dark look: this page is the site's only "Night City" screen that anyone can stumble on. */
+    :root {
+      --bg: #07070c; --panel: #0e0e17; --ink: #eef1ff; --muted: #8a8fab; --rule: #23233a;
+      --yellow: #fcee0a; --cyan: #00f0ff; --pink: #ff2a6d;
+      --display: "Chakra Petch", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; min-height: 100vh; min-height: 100svh;
+      display: grid; grid-template-rows: auto 1fr auto;
+      background:
+        radial-gradient(900px 480px at 88% -10%, rgba(255, 42, 109, .14), transparent 60%),
+        radial-gradient(700px 420px at -10% 110%, rgba(0, 240, 255, .10), transparent 60%),
+        var(--bg);
+      color: var(--ink); font-family: var(--display); font-size: 16px; line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+    }
+    /* scan lines */
+    body::after {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 5;
+      background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, .03) 0 1px, transparent 1px 3px);
+    }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+    .top {
+      width: 100%; max-width: 760px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding-top: max(18px, env(safe-area-inset-top, 0px)); padding-bottom: 8px;
+    }
+    .mark { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; letter-spacing: .14em; font-size: 14px; }
+    .mark svg { width: 38px; height: 38px; flex: none; overflow: visible;
+      filter: drop-shadow(-1.5px 0 0 rgba(0, 240, 255, .85)) drop-shadow(1.5px 0 0 rgba(255, 42, 109, .75)); }
+    .sys { font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; color: var(--muted); white-space: nowrap; }
+
+    main { display: grid; align-items: center; padding-block: 24px 32px; }
+    .panel {
+      position: relative; width: 100%; max-width: 760px; margin: 0 auto;
+      padding: 28px clamp(18px, 4vw, 40px) 30px;
+      border: 1px solid rgba(0, 240, 255, .18);
+      background:
+        linear-gradient(var(--yellow), var(--yellow)) left top / 22px 2px no-repeat,
+        linear-gradient(var(--yellow), var(--yellow)) left top / 2px 22px no-repeat,
+        linear-gradient(var(--cyan), var(--cyan)) right bottom / 22px 2px no-repeat,
+        linear-gradient(var(--cyan), var(--cyan)) right bottom / 2px 22px no-repeat,
+        rgba(14, 14, 23, .78);
+    }
+    .tag { margin: 0; font-family: var(--mono); font-size: 12px; letter-spacing: .14em; color: var(--cyan); display: flex; align-items: center; gap: 10px; }
+    .tag .led { width: 8px; height: 8px; background: var(--pink); box-shadow: 0 0 10px var(--pink); animation: led 1.2s steps(1) infinite; }
+    @keyframes led { 50% { opacity: .25; } }
+
+    .code {
+      position: relative; margin: 10px 0 0;
+      font-weight: 700; font-size: clamp(104px, 27vw, 196px); line-height: .9; letter-spacing: .01em;
+      color: var(--yellow);
+      text-shadow: -3px 0 rgba(0, 240, 255, .75), 3px 0 rgba(255, 42, 109, .75), 0 0 36px rgba(252, 238, 10, .22);
+    }
+    .code::before, .code::after {
+      content: attr(data-text); position: absolute; left: 0; top: 0; pointer-events: none;
+      clip-path: inset(0 0 100% 0);
+    }
+    .code::before { color: var(--cyan); text-shadow: none; animation: g1 3.8s steps(1) infinite; }
+    .code::after { color: var(--pink); text-shadow: none; animation: g2 3.8s steps(1) infinite; }
+    @keyframes g1 { 0%, 87%, 100% { clip-path: inset(0 0 100% 0); transform: none; }
+      88% { clip-path: inset(16% 0 60% 0); transform: translateX(-7px); }
+      91% { clip-path: inset(58% 0 22% 0); transform: translateX(6px); } }
+    @keyframes g2 { 0%, 88%, 100% { clip-path: inset(0 0 100% 0); transform: none; }
+      89% { clip-path: inset(70% 0 8% 0); transform: translateX(8px); }
+      92% { clip-path: inset(30% 0 52% 0); transform: translateX(-5px); } }
+
+    .flat { margin: 6px 0 0; font-weight: 600; font-size: clamp(22px, 5vw, 32px); letter-spacing: .34em; color: var(--ink); }
+    .ecg { display: block; width: 100%; height: auto; margin: 14px 0 6px; overflow: visible; }
+    .ecg polyline { fill: none; stroke: var(--pink); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round;
+      filter: drop-shadow(0 0 4px rgba(255, 42, 109, .8));
+      stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.4s cubic-bezier(.4, .1, .2, 1) .2s forwards; }
+    .ecg .base { stroke: var(--rule); stroke-width: 1; filter: none; stroke-dasharray: 3 5; animation: none; stroke-dashoffset: 0; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+
+    .msg { margin: 10px 0 0; font-size: clamp(19px, 3.6vw, 24px); font-weight: 600; }
+    .msg.ko { margin-top: 2px; font-size: 16px; font-weight: 500; color: var(--muted); letter-spacing: -.005em; word-break: keep-all; }
+
+    .trace { margin: 22px 0 0; display: grid; gap: 6px; font-family: var(--mono); font-size: 12.5px; }
+    .trace div { display: grid; grid-template-columns: 84px 1fr; gap: 12px; padding-top: 6px; border-top: 1px solid var(--rule); }
+    .trace dt { color: var(--muted); letter-spacing: .12em; }
+    .trace dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; min-width: 0; }
+    .trace dd b { color: var(--yellow); font-weight: 500; }
+
+    .go { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .btn {
+      display: inline-flex; align-items: center; height: 42px; padding: 0 18px;
+      font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      border: 1px solid rgba(0, 240, 255, .45); color: var(--ink); background: rgba(0, 240, 255, .06);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn:hover { border-color: var(--pink); }
+    .btn.primary { background: var(--yellow); border-color: var(--yellow); color: #07070c; }
+    .btn:focus-visible { outline-offset: -5px; outline-color: var(--pink); }
+
+    .foot {
+      width: 100%; max-width: 760px; margin: 0 auto;
+      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: .06em;
+      padding-bottom: max(20px, env(safe-area-inset-bottom, 0px)); padding-top: 6px;
+    }
+
+    @media (max-width: 560px) {
+      .sys { display: none; }
+      .trace div { grid-template-columns: 72px 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tag .led, .code::before, .code::after { animation: none; }
+      .ecg polyline { animation: none; stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="mark" href="/" aria-label="Doohwi Cha, home"><svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#fcee0a" d="M0 12L12 0H64V52L52 64H0Z"/><path fill="#07070c" d="M18.07 31.5L26.62 24H44.62L40.69 52H22.69L16.24 44.5ZM23.65 41.6L26.57 45H38.17L40.14 31H28.54L24.66 34.4ZM41.83 19L49.81 12H49.81L44.19 52H37.19Z"/></svg>DOOHWI CHA</a>
+    <span class="sys">SYS://doohwicha.github.io</span>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="title">
+      <p class="tag"><span class="led" aria-hidden="true"></span>ERR_404 // NO SIGNAL</p>
+      <h1 class="code" id="title" data-text="404">404</h1>
+      <p class="flat">FLATLINED</p>
+      <svg class="ecg" viewBox="0 0 640 80" aria-hidden="true">
+        <line class="base" x1="0" y1="44" x2="640" y2="44"/>
+        <polyline points="0,44 56,44 66,44 74,26 82,62 90,44 150,44 160,44 168,10 178,76 188,44 254,44 262,44 268,34 274,52 280,44 330,44 336,44 340,40 344,47 348,44 640,44"/>
+      </svg>
+      <p class="msg">Wrong address, choom.</p>
+      <p class="msg ko" lang="ko">없는 주소입니다. 아래 링크로 돌아가 주세요.</p>
+      <dl class="trace">
+        <div><dt>REQUEST</dt><dd id="req">unknown</dd></div>
+        <div><dt>STATUS</dt><dd><b>404</b> · page not found</dd></div>
+        <div><dt>ROUTE</dt><dd>doohwicha.github.io</dd></div>
+      </dl>
+      <nav class="go" aria-label="Back">
+        <a class="btn primary" href="/">← Homepage</a>
+        <a class="btn ko" href="/ko/" lang="ko">한국어 홈</a>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© 2026 Doohwi Cha</span>
+    <span>Personal website</span>
+  </footer>
+
+  <script>
+    (function () {
+      var p = location.pathname + location.search;
+      try { p = decodeURIComponent(p); } catch (e) {}
+      if (p.length > 140) p = p.slice(0, 137) + "…";
+      document.getElementById("req").textContent = p || "/";
+      // arrived from a Korean page: put the Korean link first
+      if (/^\/ko(\/|$)/.test(location.pathname)) {
+        var b = document.querySelectorAll(".go .btn");
+        b[0].classList.remove("primary"); b[1].classList.add("primary");
+        b[1].parentNode.insertBefore(b[1], b[0]);
+      }
+    })();
+  </script>
+</body>
+</html>
