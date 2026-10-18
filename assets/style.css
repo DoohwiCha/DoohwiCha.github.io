@@ -257,7 +257,10 @@ html[lang="ko"] .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.6; }
 }
 .chip.oral { color: var(--oral); }
 .chip.poster { color: var(--poster); }
+.chip.proc { color: var(--ink-2); }
+.chip.track { color: var(--accent); background: var(--accent-soft); border-color: transparent; }
 .chip.todo { border-color: transparent; }
+.chips { display: inline-flex; flex-wrap: wrap; gap: 6px; }
 
 /* publication list */
 .publist { margin-top: 56px; }
@@ -272,7 +275,8 @@ html[lang="ko"] .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.6; }
 .publist .a .me { color: var(--ink); font-weight: 600; }
 .publist .a a { color: var(--accent); font-weight: 600; }
 .publist .a a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.publist .chip { margin-left: 8px; vertical-align: 1px; padding: 1px 8px; font-size: 11px; }
+.publist .chips { gap: 5px; margin-left: 8px; vertical-align: 1px; }
+.publist .chip { padding: 1px 8px; font-size: 11px; }
 
 /* timeline */
 .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
@@ -454,6 +458,7 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
 .sh .chip { font-size: 7pt; padding: .2mm 2mm; margin-left: 1.5mm; }
 .sh .chip.oral { color: #0e6a44; }
 .sh .chip.poster { color: #8a5a12; }
+.sh .chip.proc { color: #353d49; }
 .sh-tl { list-style: none; margin: 0; padding: 0; }
 .sh-tl li { display: grid; grid-template-columns: 21mm 1fr; gap: 3mm; padding: 1.1mm 0; }
 .sh-tl .w { font-family: var(--mono); font-size: 8pt; color: #6a7280; }

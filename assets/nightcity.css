@@ -129,6 +129,7 @@
   html.nc .paper h3 { font-family: var(--display); font-weight: 600; letter-spacing: 0; }
   html.nc .venue-tag, html.nc .publist h4, html.nc .mandate .y { color: var(--nc-yellow); }
   html.nc .chip { border-radius: 0; }
+  html.nc .chip.track { color: var(--nc-yellow); background: rgba(252, 238, 10, .08); }
   html.nc .link-arrow:hover, html.nc .publist .a a:hover { color: var(--nc-pink); }
   html.nc .publist > summary { border-radius: 0; border-color: rgba(0, 240, 255, .25); }
   html.nc .publist li::before { color: var(--nc-pink); }
