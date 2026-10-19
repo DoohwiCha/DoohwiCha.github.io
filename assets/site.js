@@ -1,6 +1,7 @@
 // Folds the paper list on phones, highlights the current section in the menu,
 // and keeps a hidden "Night City" mode behind the logo (tap it three times on a home page;
-// tapping the portrait three times also puts on the shades). The page works without it.
+// tapping the portrait three times also puts on the shades; three more taps switch back).
+// The page works without it.
 (function () {
   var script = document.currentScript;
   var src = script && script.src ? script.src.split("?") : null;
@@ -47,6 +48,7 @@
     var photo = document.querySelector(".hero-photo");
     var edgeSrc = assets + "portrait-nc.jpg" + version;
     var requested = false, ready = false, wanted = false, built = false, edgeBuilt = false, edgeWanted = false;
+    var byPhoto = false; // the portrait switched the whole mode on, so it switches it off again
     var timers = {};
 
     function load() {
@@ -227,25 +229,25 @@
         if (edgeWanted) { edgeWanted = false; edge(true); }
       } else {
         edgeWanted = false;
+        byPhoto = false;
         root.classList.remove("nc-edge");
       }
     }
 
-    // three quick taps (each within 1.2 s of the last) on a target. Taps that carry on in the
-    // same burst after the switch are ignored, so tapping more than three times does not undo it.
+    // on, or about to be: the style sheet may still be on its way
+    function isOn() { return root.classList.contains("nc") || wanted; }
+
+    // three quick taps (each within 1.2 s of the last) on a target switch the mode; three more
+    // switch it back
     var TAPS = 3;
     function counter(onDone) {
       var n = 0, last = 0;
       return function () {
-        var now = Date.now(), gap = now - last;
+        var now = Date.now();
+        n = now - last < 1200 ? n + 1 : 1;
         last = now;
-        if (n < 0) {
-          if (gap < 1200) return 0;
-          n = 0;
-        }
-        n = gap < 1200 ? n + 1 : 1;
         if (n >= TAPS - 1) load(); // fetch the mode's files while the last tap is on its way
-        if (n >= TAPS) { n = -1; onDone(); return TAPS; }
+        if (n >= TAPS) { n = 0; onDone(); return TAPS; }
         return n;
       };
     }
@@ -277,7 +279,7 @@
       });
     }
 
-    var logoTap = counter(function () { set(!root.classList.contains("nc")); });
+    var logoTap = counter(function () { set(!isOn()); });
     brand.style.touchAction = "manipulation";
     brand.addEventListener("click", function (e) {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return; // new tab and the like
@@ -287,8 +289,11 @@
       if (n > 1 && n < TAPS) nudge(brand.querySelector(".brand-mark"));
     });
 
+    // the portrait undoes what it did: if it switched the mode on, it switches it off again;
+    // if the logo had switched the mode on, it only takes the shades on and off
     var photoTap = counter(function () {
-      if (!root.classList.contains("nc")) { edgeWanted = true; set(true); }
+      if (!isOn()) { byPhoto = true; edgeWanted = true; set(true); }
+      else if (byPhoto) set(false);
       else edge(!root.classList.contains("nc-edge"));
     });
     var warmed = false;
