@@ -1,6 +1,6 @@
 // Folds the paper list on phones, highlights the current section in the menu,
-// and keeps a hidden "Night City" mode behind the logo (tap it seven times on a home page;
-// tapping the portrait seven times also puts on the shades). The page works without it.
+// and keeps a hidden "Night City" mode behind the logo (tap it three times on a home page;
+// tapping the portrait three times also puts on the shades). The page works without it.
 (function () {
   var script = document.currentScript;
   var src = script && script.src ? script.src.split("?") : null;
@@ -231,20 +231,26 @@
       }
     }
 
-    // seven quick taps (each within 1.2 s of the last) on a target
-    function counter(onSeven) {
+    // three quick taps (each within 1.2 s of the last) on a target. Taps that carry on in the
+    // same burst after the switch are ignored, so tapping more than three times does not undo it.
+    var TAPS = 3;
+    function counter(onDone) {
       var n = 0, last = 0;
       return function () {
-        var now = Date.now();
-        n = now - last < 1200 ? n + 1 : 1;
+        var now = Date.now(), gap = now - last;
         last = now;
-        if (n >= 3) load();
-        if (n >= 7) { n = 0; onSeven(); return 7; }
+        if (n < 0) {
+          if (gap < 1200) return 0;
+          n = 0;
+        }
+        n = gap < 1200 ? n + 1 : 1;
+        if (n >= TAPS - 1) load(); // fetch the mode's files while the last tap is on its way
+        if (n >= TAPS) { n = -1; onDone(); return TAPS; }
         return n;
       };
     }
 
-    // a small shake from the third tap on, so it is clear the taps are being counted
+    // a small shake on the taps before the last, so it is clear the taps are being counted
     function nudge(el) {
       if (reduce || !el || !el.animate) return;
       el.animate([
@@ -278,7 +284,7 @@
       e.preventDefault();
       var n = logoTap();
       if (n === 1) window.scrollTo(0, 0);
-      if (n >= 3 && n < 7) nudge(brand.querySelector(".brand-mark"));
+      if (n > 1 && n < TAPS) nudge(brand.querySelector(".brand-mark"));
     });
 
     var photoTap = counter(function () {
@@ -288,9 +294,9 @@
     var warmed = false;
     function onPhoto() {
       var n = photoTap();
-      if (n >= 3 && !warmed) { warmed = true; new Image().src = edgeSrc; } // fetch the Night City portrait early
-      if (root.classList.contains("nc") && n !== 7) flash("nc-sandy", 900);
-      else if (n >= 3 && n < 7) { nudge(photo); nudge(portrait); }
+      if (n >= TAPS - 1 && !warmed) { warmed = true; new Image().src = edgeSrc; } // fetch the Night City portrait early
+      if (root.classList.contains("nc") && n !== TAPS) flash("nc-sandy", 900);
+      else if (n > 1 && n < TAPS) { nudge(photo); nudge(portrait); }
     }
     if (photo) {
       photo.draggable = false;

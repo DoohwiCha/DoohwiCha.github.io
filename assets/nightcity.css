@@ -1,6 +1,6 @@
 /* Hidden "Night City" mode for the home pages.
-   site.js loads this file only after the logo (or the portrait) has been tapped a few times,
-   and adds html.nc when it has been tapped seven. Theme rules are scoped to html.nc; the
+   site.js loads this file once the logo (or the portrait) has been tapped twice, and adds
+   html.nc on the third tap. Theme rules are scoped to html.nc; the
    entry animation uses html.nc-boot. Screen only: print is unchanged. */
 @media screen {
   html:root.nc {
@@ -87,7 +87,7 @@
     filter: drop-shadow(8px 0 0 rgba(0, 240, 255, .7)) drop-shadow(14px 0 0 rgba(255, 42, 109, .5));
   }
 
-  /* the portrait as an edgerunner (tap the photo seven times): Night City light and shades */
+  /* the portrait as an edgerunner (tap the photo three times): Night City light and shades */
   .nc-face, .nc-pface, .nc-pshades, .nc-toast { display: none; }
   html.nc .nc-face { display: inline; opacity: 0; pointer-events: none; transition: opacity .45s ease; }
   html.nc.nc-edge .nc-face { opacity: 1; pointer-events: auto; }
