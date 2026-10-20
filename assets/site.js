@@ -43,8 +43,8 @@
     var T = ko ? {
       top: "우연과 실력은 어떻게 구별하는가 · 과거는 미래에 대해 얼마나 말해 주는가",
       bottom: "모형은 얼마나 틀려도 쓸모 있는가 · 위험은 어디로 옮겨 가는가",
-      ncTop: "투자의 경계를 달리다 · 일곱 개의 모델, 하나의 팀",
-      ncBottom: "경계 너머, 페이지 끝 오른쪽 아래",
+      ncTop: "투자의 경계를 달리다 · 아직 아무도 재 보지 않은 곳으로",
+      ncBottom: "경계 너머의 달은 페이지 끝, 오른쪽 아래에",
       art: ["파스칼·페르마, 1654 · 끝나지 않은 판은 어떻게 나누는가", "베이즈, 1763 · 새 증거 앞에서 믿음은 얼마나 바뀌어야 하는가",
         "골턴, 1886 · 극단은 왜 평균으로 돌아오는가", "바슐리에, 1900 · 가격의 움직임을 확률로 쓸 수 있는가",
         "고셋(스튜던트), 1908 · 작은 표본은 얼마나 말해 줄 수 있는가", "마코위츠, 1952 · 위험과 수익을 함께 놓고 고를 수 있는가",
@@ -54,8 +54,8 @@
     } : {
       top: "HOW DO WE TELL LUCK FROM SKILL? · WHAT DOES THE PAST SAY ABOUT THE FUTURE?",
       bottom: "HOW WRONG CAN A MODEL BE AND STILL BE USEFUL? · WHERE DOES RISK GO?",
-      ncTop: "RUNNING THE EDGE OF INVESTING · SEVEN MODELS, ONE CREW",
-      ncBottom: "BEYOND THE EDGE: END OF THE PAGE, BOTTOM RIGHT",
+      ncTop: "RUNNING THE EDGE OF INVESTING · WHERE NO ONE HAS MEASURED YET",
+      ncBottom: "THE MOON BEYOND THE EDGE: END OF THE PAGE, BOTTOM RIGHT",
       art: ["PASCAL & FERMAT, 1654 · HOW DO YOU DIVIDE THE STAKES OF AN UNFINISHED GAME?",
         "BAYES, 1763 · HOW MUCH SHOULD NEW EVIDENCE CHANGE WHAT WE BELIEVE?", "GALTON, 1886 · WHY DO EXTREMES RETURN TOWARD THE MEAN?",
         "BACHELIER, 1900 · CAN PRICE MOVES BE WRITTEN IN PROBABILITIES?", "GOSSET (STUDENT), 1908 · HOW MUCH CAN A SMALL SAMPLE TELL US?",
@@ -348,7 +348,7 @@
         if (p >= 4) foot(x + 48 * sc, y - 15 * sc, sc, " fp-y", 8);
       }
       s += '</svg>';
-      d.innerHTML = s + '<div class="say"><p class="line">' + (ko ? "여긴 조용하네." : "Quiet up here.") + '</p>' +
+      d.innerHTML = s + '<div class="say"><p class="line">' + (ko ? "경계 너머엔,<br>이런 고요가 있었다." : "Beyond the edge,<br>this quiet.") + '</p>' +
         '<p class="cap">NIGHT CITY // 384,400 KM</p></div>' +
         '<button type="button" class="back">' + (ko ? "나이트 시티로 돌아가기" : "Back to Night City") + '</button>';
       d.addEventListener("click", function (e) {
