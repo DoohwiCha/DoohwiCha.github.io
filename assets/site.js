@@ -34,30 +34,34 @@
 
   // Microprint, as on a banknote: on the home pages the ring round the portrait (phones), the
   // dashed ring of the diagram (wider screens) and the footer rule are lines of text about 2.5 px
-  // high, readable only when zoomed in. In Night City some of the lines change.
+  // high, readable only when zoomed in: questions from statistics and finance, and seven people
+  // who asked them first. In Night City the portrait ring and the footer change.
   function microprint() {
     if (!document.querySelector(".hero")) return;
     var NS = "http://www.w3.org/2000/svg";
     var ko = (document.documentElement.lang || "").indexOf("ko") === 0;
     var T = ko ? {
-      top: "이 글씨가 읽힌다면 확대해서 보고 계신 겁니다 · 지폐처럼 미세문자로 새겼습니다",
-      bottom: "모델 일곱 · 같은 정보 N_eff 2.05 · 정보 분할 3.98 · 수익률이 아니라 제안의 다양성",
-      ncTop: "옵틱 스캔 · 크롬: 이식 없음 · 외부 모델 7개 · 인간성 100%",
-      ncBottom: "페이지 끝까지 내려가 오른쪽 아래를 보세요",
-      art: ["모델 일곱, 투자팀 하나", "모두 같은 정보: N_eff 2.05", "정보 접근 분할: N_eff 3.98", "프롬프트 토큰 68% 감소",
-        "수익률이 아니라 제안의 다양성을 측정", "THE DIVISION OF RESEARCH · ACM ICAIF 2026", "이 글씨가 읽힌다면 확대해서 보고 계신 겁니다"],
-      ncArt: "페이지 끝까지 내려가 오른쪽 아래를 보세요",
-      rule: "이 글씨가 읽힌다면 확대해서 보고 계신 겁니다 · 지폐처럼 미세문자로 새겼습니다 · 끝까지 읽어 주셔서 고맙습니다 · "
+      top: "우연과 실력은 어떻게 구별하는가 · 과거는 미래에 대해 얼마나 말해 주는가",
+      bottom: "모형은 얼마나 틀려도 쓸모 있는가 · 위험은 어디로 옮겨 가는가",
+      ncTop: "투자의 경계를 달리다 · 일곱 개의 모델, 하나의 팀",
+      ncBottom: "경계 너머, 페이지 끝 오른쪽 아래",
+      art: ["파스칼·페르마, 1654 · 끝나지 않은 판은 어떻게 나누는가", "베이즈, 1763 · 새 증거 앞에서 믿음은 얼마나 바뀌어야 하는가",
+        "골턴, 1886 · 극단은 왜 평균으로 돌아오는가", "바슐리에, 1900 · 가격의 움직임을 확률로 쓸 수 있는가",
+        "고셋(스튜던트), 1908 · 작은 표본은 얼마나 말해 줄 수 있는가", "마코위츠, 1952 · 위험과 수익을 함께 놓고 고를 수 있는가",
+        "에프론, 1979 · 표본 하나로 그 표본의 불확실성을 알 수 있는가"],
+      rule: "불확실한 내일을 오늘 어떻게 재는가 · ",
+      ncRule: "투자의 경계 너머 · 차두휘 · NIGHT CITY · "
     } : {
-      top: "IF YOU CAN READ THIS, YOU ZOOMED IN · MICROPRINTED, AS ON A BANKNOTE",
-      bottom: "SEVEN MODELS · N_EFF 2.05 → 3.98 · DIVERSITY OF PROPOSALS, NOT RETURNS",
-      ncTop: "OPTICS SCAN · CHROME: NONE INSTALLED · 7 EXTERNAL MODELS · HUMANITY: 100%",
-      ncBottom: "WALK TO THE END OF THE PAGE, BOTTOM RIGHT",
-      art: ["SEVEN MODELS, ONE INVESTMENT TEAM", "SAME INFORMATION FOR ALL: N_EFF 2.05", "SPLIT INFORMATION ACCESS: N_EFF 3.98",
-        "AND 68% FEWER PROMPT TOKENS", "WE MEASURED THE DIVERSITY OF PROPOSALS, NOT RETURNS", "THE DIVISION OF RESEARCH · ACM ICAIF 2026",
-        "IF YOU CAN READ THIS, YOU ZOOMED IN"],
-      ncArt: "WALK TO THE END OF THE PAGE, BOTTOM RIGHT",
-      rule: "IF YOU CAN READ THIS, YOU ZOOMED IN · MICROPRINTED, AS ON A BANKNOTE · THANKS FOR READING TO THE VERY END · "
+      top: "HOW DO WE TELL LUCK FROM SKILL? · WHAT DOES THE PAST SAY ABOUT THE FUTURE?",
+      bottom: "HOW WRONG CAN A MODEL BE AND STILL BE USEFUL? · WHERE DOES RISK GO?",
+      ncTop: "RUNNING THE EDGE OF INVESTING · SEVEN MODELS, ONE CREW",
+      ncBottom: "BEYOND THE EDGE: END OF THE PAGE, BOTTOM RIGHT",
+      art: ["PASCAL & FERMAT, 1654 · HOW DO YOU DIVIDE THE STAKES OF AN UNFINISHED GAME?",
+        "BAYES, 1763 · HOW MUCH SHOULD NEW EVIDENCE CHANGE WHAT WE BELIEVE?", "GALTON, 1886 · WHY DO EXTREMES RETURN TOWARD THE MEAN?",
+        "BACHELIER, 1900 · CAN PRICE MOVES BE WRITTEN IN PROBABILITIES?", "GOSSET (STUDENT), 1908 · HOW MUCH CAN A SMALL SAMPLE TELL US?",
+        "MARKOWITZ, 1952 · CAN WE CHOOSE BY RISK AND RETURN TOGETHER?", "EFRON, 1979 · CAN ONE SAMPLE MEASURE ITS OWN UNCERTAINTY?"],
+      rule: "HOW DO WE MEASURE AN UNCERTAIN TOMORROW TODAY? · ",
+      ncRule: "BEYOND THE EDGE OF INVESTING · DOOHWI CHA · NIGHT CITY · "
     };
     var n = 0;
 
@@ -104,8 +108,7 @@
         var under = Math.sin(((a0 + a1) / 2) * Math.PI / 180) > 0.1;
         var R = (under ? r + 1.4 : r - 1.2) * 4;
         var from = under ? a1 : a0, to = under ? a0 : a1;
-        arc(g, cx, cy, R, from, to, T.art[i], i === 6 ? "mp-day" : "");
-        if (i === 6) arc(g, cx, cy, R, from, to, T.ncArt, "mp-nc");
+        arc(g, cx, cy, R, from, to, T.art[i]);
       }
       circle.parentNode.insertBefore(g, circle.nextSibling);
       circle.style.stroke = "none";
@@ -117,9 +120,12 @@
       var strip = document.createElement("div");
       strip.className = "mp mp-rule";
       strip.setAttribute("aria-hidden", "true");
-      var line = document.createElement("span");
-      line.textContent = new Array(25).join(T.rule);
-      strip.appendChild(line);
+      [[T.rule, "mp-day"], [T.ncRule, "mp-nc"]].forEach(function (r) {
+        var line = document.createElement("span");
+        line.className = r[1];
+        line.textContent = new Array(40).join(r[0]);
+        strip.appendChild(line);
+      });
       foot.insertBefore(strip, foot.firstChild);
     }
     document.documentElement.classList.add("mp-on");

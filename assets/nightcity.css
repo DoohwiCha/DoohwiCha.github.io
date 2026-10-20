@@ -142,6 +142,7 @@
   /* microprint: the Night City lines, in yellow */
   html.nc .mp .mp-day { display: none; }
   html.nc .mp .mp-nc { display: inline; }
+  html.nc .mp-rule .mp-nc { display: block; }
   html.nc .mp text { fill: var(--nc-yellow); fill-opacity: .75; }
   html.nc .mp-rule span { color: var(--nc-yellow); opacity: .6; }
 
