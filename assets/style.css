@@ -216,6 +216,7 @@ html[lang="ko"] .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.6; }
 .sec-label { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .sec-label b { color: var(--accent); font-weight: 500; margin-right: 10px; }
 .sec-title { font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 3.4vw, 42px); line-height: 1.15; letter-spacing: -0.018em; margin: 0; }
+.sec-title .note { display: inline-block; vertical-align: middle; margin-left: 10px; padding: 3px 10px; border: 1px solid var(--rule); border-radius: 999px; font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--ink-2); white-space: nowrap; }
 .sec-body { display: grid; grid-template-columns: 230px 1fr; gap: 40px; }
 .sec-body > .aside { color: var(--muted); font-size: 14px; }
 .prose p { font-size: 17.5px; line-height: 1.75; color: var(--ink-2); max-width: 44em; }

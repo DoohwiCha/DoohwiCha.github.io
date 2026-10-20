@@ -113,6 +113,7 @@
   html.nc .sec-label { color: var(--nc-cyan); }
   html.nc .sec-label::before { content: "// "; color: var(--nc-pink); }
   html.nc .sec-title, html.nc .contact h2 { font-family: var(--display); font-weight: 600; letter-spacing: -.005em; }
+  html.nc .sec-title .note { border-radius: 0; font-family: var(--mono); font-weight: 500; color: var(--nc-yellow); border-color: rgba(252, 238, 10, .45); }
 
   /* panels: square corners with HUD brackets */
   html.nc .card, html.nc .paper, html.nc .repo, html.nc .mandate {
