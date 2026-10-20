@@ -289,7 +289,7 @@ html[lang="ko"] .lede { font-size: clamp(19px, 2vw, 22px); line-height: 1.6; }
 .timeline .org { color: var(--ink-2); font-size: 15px; }
 .timeline .desc { color: var(--muted); font-size: 14.5px; margin-top: 4px; }
 
-.mandates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+.mandates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 18px; }
 .mandate { border: 1px solid var(--rule); border-radius: 14px; padding: 18px 18px 16px; background: var(--card); }
 .mandate .y { font-family: var(--mono); font-size: 12px; color: var(--gold); letter-spacing: .08em; }
 .mandate p { margin: 6px 0 0; font-size: 14.5px; line-height: 1.55; }
