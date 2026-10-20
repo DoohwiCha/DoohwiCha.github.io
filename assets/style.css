@@ -314,6 +314,19 @@ html[lang="ko"] .contact h2 { font-size: clamp(28px, 3.6vw, 42px); line-height: 
 footer.site-foot { border-top: 1px solid var(--rule); padding: 28px 0 44px; color: var(--muted); font-size: 13px; }
 footer.site-foot .container { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 
+/* microprint (site.js): the portrait ring, the diagram ring and the footer rule are text about 2.5 px high */
+.mp { pointer-events: none; -webkit-user-select: none; user-select: none; }
+.mp text { font-family: var(--sans); font-weight: 500; font-size: 9.6px; letter-spacing: .02em; }
+.mp .mp-nc { display: none; }
+.mp-ring { display: none; position: absolute; left: -5px; top: -5px; width: 86px; height: 86px; overflow: visible; }
+.mp-ring text { fill: var(--muted); }
+.mp-art text { fill: var(--gold); fill-opacity: .85; }
+.hero-grid > div:first-child { position: relative; }
+html.mp-on .hero-photo { border-color: transparent; }
+html.mp-on footer.site-foot { position: relative; border-top-color: transparent; }
+.mp-rule { position: absolute; left: 0; right: 0; top: -1px; height: 3px; overflow: hidden; }
+.mp-rule span { display: block; width: 400%; font: 500 10px/12px var(--sans); letter-spacing: .02em; color: var(--muted); white-space: nowrap; transform: scale(.25); transform-origin: 0 0; }
+
 /* reveal on scroll (only when JS runs) */
 .reveal { transition: opacity .7s ease, transform .7s ease; }
 .reveal.pre { opacity: 0; transform: translateY(14px); }
@@ -346,6 +359,7 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
   /* hero: small portrait instead of the diagram */
   .hero { padding: 26px 0 22px; }
   .hero-photo { display: block; }
+  .mp-ring { display: block; }
   .hero-art { display: none; }
   .kicker { font-size: 11px; letter-spacing: .08em; margin-bottom: 12px; }
   .hero h1 { font-size: 42px; margin-bottom: 10px; }
@@ -411,6 +425,9 @@ footer.site-foot .container { display: flex; justify-content: space-between; gap
 /* ---------- print (home pages) ---------- */
 @media print {
   .site, .hero-art, .now, .actions, .contact .actions { display: none !important; }
+  .mp { display: none !important; }
+  html.mp-on .hero-photo { border-color: var(--rule); }
+  html.mp-on footer.site-foot { border-top-color: var(--rule); }
   body { background: #fff; color: #000; }
   .section { padding: 24px 0; }
   .card, .paper, .repo, .mandate { box-shadow: none; }

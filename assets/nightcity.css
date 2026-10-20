@@ -139,19 +139,59 @@
   html.nc .timeline .when { color: var(--nc-cyan); }
   html.nc .contact { background: radial-gradient(800px 420px at 100% 100%, rgba(255, 42, 109, .1), transparent 60%); }
 
+  /* microprint: the Night City lines, in yellow */
+  html.nc .mp .mp-day { display: none; }
+  html.nc .mp .mp-nc { display: inline; }
+  html.nc .mp text { fill: var(--nc-yellow); fill-opacity: .75; }
+  html.nc .mp-rule span { color: var(--nc-yellow); opacity: .6; }
+
   /* the moon at the end of the page */
   html.nc footer.site-foot { position: relative; }
   .nc-moon { display: none; }
+  html.nc footer.site-foot { padding-bottom: 64px; }
   html.nc .nc-moon {
     display: block; position: absolute; right: max(22px, env(safe-area-inset-right, 0px)); bottom: 12px;
-    width: 26px; height: 26px; border-radius: 50%;
+    width: 26px; height: 26px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
     background:
       radial-gradient(circle at 64% 36%, rgba(40, 46, 80, .22) 0 2.5px, transparent 3.5px),
       radial-gradient(circle at 36% 62%, rgba(40, 46, 80, .18) 0 3.5px, transparent 4.5px),
       radial-gradient(circle at 58% 72%, rgba(40, 46, 80, .14) 0 1.8px, transparent 2.8px),
       radial-gradient(circle at 42% 38%, #ffffff, #e3e9ff 55%, #aab5e4);
     box-shadow: 0 0 16px 4px rgba(205, 218, 255, .33);
+    transition: box-shadow .3s ease;
   }
+  html.nc .nc-moon::before { content: ""; position: absolute; inset: -9px; } /* a 44 px target */
+  html.nc .nc-moon:hover, html.nc .nc-moon:focus-visible { box-shadow: 0 0 22px 7px rgba(205, 218, 255, .5); }
+  html.nc .nc-moon:focus-visible { outline: 2px solid var(--nc-cyan); outline-offset: 6px; }
+
+  /* the walk on the moon (tap the moon) */
+  .nc-lunar {
+    position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+    margin: 0; padding: 0; border: 0; overflow: hidden; background: #020207; color: #eef1ff;
+  }
+  .nc-lunar[open] { animation: nc-in .4s ease both; }
+  .nc-lunar::backdrop { background: #020207; }
+  .nc-lunar svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .nc-lunar .fp { fill: #b6bac8; animation: nc-in .45s ease both; animation-delay: calc(var(--i) * 125ms + 500ms); }
+  .nc-lunar .fp-y { fill: #fcee0a; fill-opacity: .38; }
+  .nc-lunar .say {
+    position: absolute; left: 0; right: 0; top: 19%; margin: 0; text-align: center;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .nc-lunar .line {
+    margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(24px, 3.4vw, 32px); letter-spacing: .01em; color: #eef1ff;
+    animation: nc-in 1.2s ease 2.3s both;
+  }
+  .nc-lunar .cap { margin: 12px 0 0; font: 500 11px/1 var(--mono); letter-spacing: .2em; color: #8a8fab; animation: nc-in 1.2s ease 2.8s both; }
+  .nc-lunar .back {
+    position: absolute; left: 50%; bottom: max(30px, calc(env(safe-area-inset-bottom, 0px) + 16px)); transform: translateX(-50%);
+    padding: 10px 16px; border: 1px solid rgba(252, 238, 10, .6); background: rgba(2, 2, 7, .6); color: #fcee0a;
+    font: 500 12px/1 var(--mono); letter-spacing: .12em; cursor: pointer; white-space: nowrap;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .nc-lunar .back:focus-visible { outline: 2px solid var(--nc-cyan); outline-offset: -5px; }
+  html[lang="ko"] .nc-lunar .back { letter-spacing: .02em; }
 
   /* status chip with the way out */
   .nc-hud, .nc-sweep { display: none; }
@@ -189,6 +229,7 @@
   html.nc .nc-pshades { overflow: visible; }
 }
 
+@keyframes nc-in { from { opacity: 0; } }
 @keyframes nc-glint { from { transform: translateX(-120px); } to { transform: translateX(330px); } }
 @keyframes nc-cred {
   0% { opacity: 0; transform: translate(-50%, -8px); }
@@ -212,4 +253,6 @@
   html.nc.nc-cred .nc-toast { animation: none; opacity: 1; }
   html.nc-boot .hero h1, html.nc-boot .brand-mark svg { animation: none; }
   html.nc.nc-boot .nc-sweep { display: none; }
+  .nc-lunar[open], .nc-lunar .fp, .nc-lunar .line, .nc-lunar .cap { animation: none; opacity: 1; }
+  html.nc .nc-moon { transition: none; }
 }

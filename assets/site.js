@@ -12,6 +12,7 @@
   var pub = document.getElementById("publications");
   if (pub && window.matchMedia && window.matchMedia("(max-width: 720px)").matches) pub.open = false;
 
+  microprint();
   nightCity();
 
   if (!("IntersectionObserver" in window)) return;
@@ -30,6 +31,99 @@
     var sec = document.getElementById(id);
     if (sec) spy.observe(sec);
   });
+
+  // Microprint, as on a banknote: on the home pages the ring round the portrait (phones), the
+  // dashed ring of the diagram (wider screens) and the footer rule are lines of text about 2.5 px
+  // high, readable only when zoomed in. In Night City some of the lines change.
+  function microprint() {
+    if (!document.querySelector(".hero")) return;
+    var NS = "http://www.w3.org/2000/svg";
+    var ko = (document.documentElement.lang || "").indexOf("ko") === 0;
+    var T = ko ? {
+      top: "이 글씨가 읽힌다면 확대해서 보고 계신 겁니다 · 지폐처럼 미세문자로 새겼습니다",
+      bottom: "모델 일곱 · 같은 정보 N_eff 2.05 · 정보 분할 3.98 · 수익률이 아니라 제안의 다양성",
+      ncTop: "옵틱 스캔 · 크롬: 이식 없음 · 외부 모델 7개 · 인간성 100%",
+      ncBottom: "페이지 끝까지 내려가 오른쪽 아래를 보세요",
+      art: ["모델 일곱, 투자팀 하나", "모두 같은 정보: N_eff 2.05", "정보 접근 분할: N_eff 3.98", "프롬프트 토큰 68% 감소",
+        "수익률이 아니라 제안의 다양성을 측정", "THE DIVISION OF RESEARCH · ACM ICAIF 2026", "이 글씨가 읽힌다면 확대해서 보고 계신 겁니다"],
+      ncArt: "페이지 끝까지 내려가 오른쪽 아래를 보세요",
+      rule: "이 글씨가 읽힌다면 확대해서 보고 계신 겁니다 · 지폐처럼 미세문자로 새겼습니다 · 끝까지 읽어 주셔서 고맙습니다 · "
+    } : {
+      top: "IF YOU CAN READ THIS, YOU ZOOMED IN · MICROPRINTED, AS ON A BANKNOTE",
+      bottom: "SEVEN MODELS · N_EFF 2.05 → 3.98 · DIVERSITY OF PROPOSALS, NOT RETURNS",
+      ncTop: "OPTICS SCAN · CHROME: NONE INSTALLED · 7 EXTERNAL MODELS · HUMANITY: 100%",
+      ncBottom: "WALK TO THE END OF THE PAGE, BOTTOM RIGHT",
+      art: ["SEVEN MODELS, ONE INVESTMENT TEAM", "SAME INFORMATION FOR ALL: N_EFF 2.05", "SPLIT INFORMATION ACCESS: N_EFF 3.98",
+        "AND 68% FEWER PROMPT TOKENS", "WE MEASURED THE DIVERSITY OF PROPOSALS, NOT RETURNS", "THE DIVISION OF RESEARCH · ACM ICAIF 2026",
+        "IF YOU CAN READ THIS, YOU ZOOMED IN"],
+      ncArt: "WALK TO THE END OF THE PAGE, BOTTOM RIGHT",
+      rule: "IF YOU CAN READ THIS, YOU ZOOMED IN · MICROPRINTED, AS ON A BANKNOTE · THANKS FOR READING TO THE VERY END · "
+    };
+    var n = 0;
+
+    function el(tag, attrs, parent) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // text along an arc from angle a0 to a1 (degrees, y down), stretched to fill it. Over the top the
+    // arc runs clockwise with the baseline inside; under the bottom it runs the other way with the
+    // baseline outside, so every line reads upright.
+    function arc(parent, cx, cy, r, a0, a1, text, cls) {
+      var rad = Math.PI / 180, id = "mp-" + n++;
+      function pt(a) { return (cx + r * Math.cos(a * rad)).toFixed(1) + " " + (cy + r * Math.sin(a * rad)).toFixed(1); }
+      el("path", { id: id, d: "M" + pt(a0) + "A" + r + " " + r + " 0 0 " + (a1 > a0 ? 1 : 0) + " " + pt(a1), fill: "none" }, parent);
+      var t = el("text", { "class": cls || "", textLength: (Math.abs(a1 - a0) * rad * r).toFixed(1), lengthAdjust: "spacing" }, parent);
+      var p = el("textPath", { href: "#" + id }, t);
+      p.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#" + id);
+      p.textContent = text;
+    }
+
+    // portrait (phones): 86 px ring drawn at 4x, just outside the 76 px photo
+    var photo = document.querySelector(".hero-photo");
+    if (photo) {
+      var ring = el("svg", { "class": "mp mp-ring", viewBox: "0 0 344 344", "aria-hidden": "true", focusable: "false" });
+      arc(ring, 172, 172, 157.6, 184, 356, T.top, "mp-day");
+      arc(ring, 172, 172, 164.8, 176, 4, T.bottom, "mp-day");
+      arc(ring, 172, 172, 157.6, 184, 356, T.ncTop, "mp-nc");
+      arc(ring, 172, 172, 164.8, 176, 4, T.ncBottom, "mp-nc");
+      photo.parentNode.insertBefore(ring, photo.nextSibling);
+    }
+
+    // diagram (wider screens): seven arcs between the seats replace the dashed ring
+    var art = document.querySelector(".hero-art svg");
+    var circle = art && art.querySelector(".art-ring");
+    if (circle) {
+      var cx = +circle.getAttribute("cx") * 4, cy = +circle.getAttribute("cy") * 4, r = +circle.getAttribute("r");
+      var g = el("g", { "class": "mp mp-art", transform: "scale(.25)" });
+      var step = 360 / 7, gap = 14 / r / (Math.PI / 180); // keep clear of the 9-unit seats
+      for (var i = 0; i < 7; i++) {
+        var a0 = -90 + i * step + gap, a1 = -90 + (i + 1) * step - gap;
+        var under = Math.sin(((a0 + a1) / 2) * Math.PI / 180) > 0.1;
+        var R = (under ? r + 1.4 : r - 1.2) * 4;
+        var from = under ? a1 : a0, to = under ? a0 : a1;
+        arc(g, cx, cy, R, from, to, T.art[i], i === 6 ? "mp-day" : "");
+        if (i === 6) arc(g, cx, cy, R, from, to, T.ncArt, "mp-nc");
+      }
+      circle.parentNode.insertBefore(g, circle.nextSibling);
+      circle.style.stroke = "none";
+    }
+
+    // footer rule: one line of 10 px text scaled to a quarter
+    var foot = document.querySelector("footer.site-foot");
+    if (foot) {
+      var strip = document.createElement("div");
+      strip.className = "mp mp-rule";
+      strip.setAttribute("aria-hidden", "true");
+      var line = document.createElement("span");
+      line.textContent = new Array(25).join(T.rule);
+      strip.appendChild(line);
+      foot.insertBefore(strip, foot.firstChild);
+    }
+    document.documentElement.classList.add("mp-on");
+  }
 
   function nightCity() {
     var brand = document.querySelector(".site .brand");
@@ -50,6 +144,8 @@
     var requested = false, ready = false, wanted = false, built = false, edgeBuilt = false, edgeWanted = false;
     var byPhoto = false; // the portrait switched the whole mode on, so it switches it off again
     var timers = {};
+    var ko = (root.lang || "").indexOf("ko") === 0;
+    var moon = null, lunar = null, lunarDone = false;
 
     function load() {
       if (requested) return;
@@ -159,9 +255,11 @@
       }
       var foot = document.querySelector("footer.site-foot");
       if (foot) {
-        var moon = document.createElement("div");
+        moon = document.createElement("button");
+        moon.type = "button";
         moon.className = "nc-moon";
-        moon.setAttribute("aria-hidden", "true");
+        moon.setAttribute("aria-label", ko ? "달 위 걷기" : "Walk on the moon");
+        moon.addEventListener("click", moonWalk);
         foot.appendChild(moon);
       }
       var sweep = document.createElement("div");
@@ -207,6 +305,72 @@
       document.body.appendChild(toast);
     }
 
+    // the moon at the end of the page: a quiet walk on it, footprints toward the horizon and, for
+    // the last few steps, a faint yellow trail beside them
+    function lunarScene() {
+      var d = document.createElement("dialog");
+      d.className = "nc-lunar";
+      d.setAttribute("aria-label", ko ? "달 위에서" : "On the moon");
+      var s = '<svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>' +
+        '<radialGradient id="nc-earth" cx=".38" cy=".34" r=".75"><stop offset="0" stop-color="#bfe3ff"/><stop offset=".45" stop-color="#4f8fe0"/>' +
+        '<stop offset="1" stop-color="#173a7a"/></radialGradient>' +
+        '<linearGradient id="nc-ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a8e9c"/><stop offset=".35" stop-color="#5a5e6b"/>' +
+        '<stop offset="1" stop-color="#26282f"/></linearGradient></defs>';
+      var seed = 7;
+      function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+      for (var i = 0; i < 70; i++) {
+        s += '<circle cx="' + (rnd() * 1000).toFixed(0) + '" cy="' + (rnd() * 600).toFixed(0) + '" r="' + (0.6 + rnd() * 1.4).toFixed(1) +
+          '" fill="#fff" opacity="' + (0.35 + rnd() * 0.6).toFixed(2) + '"/>';
+      }
+      s += '<circle cx="312" cy="292" r="30" fill="#4f8fe0" opacity=".12"/><circle cx="312" cy="292" r="17" fill="url(#nc-earth)"/>' +
+        '<path d="M-100 1000V636Q500 556 1100 636V1000Z" fill="url(#nc-ground)"/>' +
+        '<ellipse cx="330" cy="700" rx="46" ry="9" fill="#3c3f49" opacity=".55"/><ellipse cx="660" cy="660" rx="30" ry="6" fill="#3c3f49" opacity=".5"/>' +
+        '<ellipse cx="610" cy="820" rx="70" ry="14" fill="#3c3f49" opacity=".45"/>';
+      // seven pairs from the near ground to the horizon; the last three get a companion
+      var k = 0;
+      function foot(x, y, sc, cls, rot) {
+        s += '<ellipse class="fp' + cls + '" style="--i:' + k + '" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="' + (4.6 * sc).toFixed(2) +
+          '" ry="' + (9.5 * sc).toFixed(2) + '" transform="rotate(' + rot + ' ' + x.toFixed(1) + ' ' + y.toFixed(1) + ')"/>';
+      }
+      for (var p = 0; p < 7; p++) {
+        var t = p / 6, y = 742 - t * 116, sc = 0.86 - 0.5 * t, x = 498 - t * 12;
+        k = 2 * p;
+        foot(x - 9 * sc, y, sc, "", -6);
+        if (p >= 4) foot(x + 30 * sc, y - 3 * sc, sc, " fp-y", -4);
+        k = 2 * p + 1;
+        foot(x + 9 * sc, y - 12 * sc, sc, "", 6);
+        if (p >= 4) foot(x + 48 * sc, y - 15 * sc, sc, " fp-y", 8);
+      }
+      s += '</svg>';
+      d.innerHTML = s + '<div class="say"><p class="line">' + (ko ? "여긴 조용하네." : "Quiet up here.") + '</p>' +
+        '<p class="cap">NIGHT CITY // 384,400 KM</p></div>' +
+        '<button type="button" class="back">' + (ko ? "나이트 시티로 돌아가기" : "Back to Night City") + '</button>';
+      d.addEventListener("click", function (e) {
+        if (lunarDone || (e.target.closest && e.target.closest(".back"))) closeMoon();
+      });
+      d.addEventListener("close", function () { if (moon) moon.focus({ preventScroll: true }); });
+      document.body.appendChild(d);
+      return d;
+    }
+
+    function moonWalk() {
+      if (!lunar) lunar = lunarScene();
+      if (lunar.open) return;
+      lunarDone = reduce;
+      clearTimeout(timers.lunar);
+      if (!reduce) timers.lunar = setTimeout(function () { lunarDone = true; }, 2800); // taps close it once the walk is over
+      if (lunar.showModal) lunar.showModal();
+      else lunar.setAttribute("open", "");
+      var back = lunar.querySelector(".back");
+      if (back) back.focus({ preventScroll: true });
+    }
+
+    function closeMoon() {
+      if (!lunar || !lunar.open) return;
+      if (lunar.close) lunar.close();
+      else { lunar.removeAttribute("open"); if (moon) moon.focus({ preventScroll: true }); }
+    }
+
     function edge(on) {
       if (on && !edgeBuilt) {
         buildEdge();
@@ -228,6 +392,7 @@
         flash("nc-sandy", 1300);
         if (edgeWanted) { edgeWanted = false; edge(true); }
       } else {
+        closeMoon();
         edgeWanted = false;
         byPhoto = false;
         root.classList.remove("nc-edge");
@@ -310,7 +475,9 @@
     if (art) bindTap(art, onPhoto, function (e) { return e.target.closest && e.target.closest("image, .nc-shades"); });
 
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && root.classList.contains("nc")) set(false);
+      if (e.key !== "Escape") return;
+      if (lunar && lunar.open) { if (!lunar.showModal) closeMoon(); return; } // Esc leaves the moon first, then the mode
+      if (root.classList.contains("nc")) set(false);
     });
   }
 })();
